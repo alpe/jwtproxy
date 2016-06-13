@@ -12,16 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM golang:1.6
+FROM scratch
 
 MAINTAINER Quentin Machu <quentin.machu@coreos.com>
 
 ENV XDG_CONFIG_HOME=/config/
-ENTRYPOINT ["jwtproxy"]
-CMD ["-config", "/config/config.yaml"]
 VOLUME /config
 
-ADD .   /go/src/github.com/coreos/jwtproxy/
-WORKDIR /go/src/github.com/coreos/jwtproxy/
+ADD cmd/jwtproxy/jwtproxy /jwtproxy
 
-RUN go install -v github.com/coreos/jwtproxy/cmd/jwtproxy
+ENTRYPOINT ["/jwtproxy"]
+CMD ["-config", "/config/config.yaml"]
